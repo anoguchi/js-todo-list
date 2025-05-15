@@ -1,3 +1,16 @@
+import zlFetch from "https://cdn.jsdelivr.net/npm/zl-fetch@6.0.0/src/index.js";
+
+const rootendpoint = "https://api.learnjavascript.today";
+
+zlFetch(`${rootendpoint}/tasks`, {
+  auth: {
+    username: "anoguchi",
+    password: "12345",
+  },
+})
+  .then((response) => console.log(response.body))
+  .catch((error) => console.error(error));
+
 const todolist = document.querySelector(".todolist");
 const taskList = todolist.querySelector(".todolist__tasks");
 
@@ -46,4 +59,15 @@ todolist.addEventListener("submit", (event) => {
   const taskElement = makeTaskElement(inputValue);
   // Add task element to the DOM
   taskList.appendChild(taskElement);
+});
+
+todolist.addEventListener("click", (event) => {
+  if (!event.target.matches(".task__delete-button")) return;
+  // Delete a task
+  const taskElement = event.target.parentElement;
+  taskList.removeChild(taskElement);
+  // Triggers empty state
+  if (taskList.children.length === 0) {
+    taskList.innerHTML = "";
+  }
 });
